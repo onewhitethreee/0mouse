@@ -26,6 +26,15 @@ class _HomePageState extends State<HomePage> with TrayListener {
   void initState() {
     trayManager.addListener(this);
     super.initState();
+    _initTray();
+  }
+
+  void _initTray() async {
+    // 设置托盘图标
+    await trayManager.setIcon('images/tray_icon_original.ico');
+
+    // 设置托盘工具提示
+    await trayManager.setToolTip('0Mouse');
   }
 
   @override
@@ -46,10 +55,6 @@ class _HomePageState extends State<HomePage> with TrayListener {
     }
 
     await trayManager.setIcon(iconPath);
-  }
-
-  void _generateToolTip() async {
-    await trayManager.setToolTip('你想干嘛😒');
   }
 
   void _startIconFlashing() {
@@ -109,75 +114,6 @@ class _HomePageState extends State<HomePage> with TrayListener {
           ),
           onTap: () => _handleSetIcon(_kIconTypeDefault),
         ),
-        const Divider(height: 0),
-        ListTile(
-          title: const Text('setContextMenu'),
-          onTap: () async {
-            _menu ??= Menu(
-              items: [
-                MenuItem.checkbox(
-                  label: '开机自启',
-                  checked: false,
-                  onClick: (menuItem) {
-                    if (kDebugMode) {
-                      print('click item 1');
-                    }
-                    menuItem.checked = !(menuItem.checked == true);
-                  },
-                ),
-                MenuItem.separator(),
-                MenuItem(
-                  label: '打开配置文件',
-                ),
-                MenuItem.separator(),
-                MenuItem.checkbox(
-                  label: '暂停使用',
-                  checked: false,
-                  onClick: (menuItem) {
-                    if (kDebugMode) {
-                      print('click item 1');
-                    }
-                    menuItem.checked = !(menuItem.checked == true);
-                  },
-                ),
-                MenuItem.submenu(
-                  label: '帮助',
-                  submenu: Menu(
-                    items: [
-                      MenuItem(
-                        label: '关于',
-                        onClick: (menuItem) {
-                          if (kDebugMode) {
-                            print('click item 1');
-                          }
-                        },
-                      ),
-                      MenuItem(
-                        label: '帮助',
-                        onClick: (menuItem) {
-                          if (kDebugMode) {
-                            print('click item 2');
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                MenuItem.separator(),
-                MenuItem(
-                  label: '退出',
-                  onClick: (menuItem) {
-                    if (kDebugMode) {
-                      print('click item 2');
-                    }
-                    exit(0);
-                  },
-                ),
-              ],
-            );
-            await trayManager.setContextMenu(_menu!);
-          },
-        ),
         const Divider(height: 10),
         ListTile(
           title: const Text('popUpContextMenu'),
@@ -219,6 +155,69 @@ class _HomePageState extends State<HomePage> with TrayListener {
     if (kDebugMode) {
       print('onTrayIconRightMouseDown');
     }
+    _menu ??= Menu(
+      items: [
+        MenuItem.checkbox(
+          label: '开机自启',
+          checked: false,
+          onClick: (menuItem) {
+            if (kDebugMode) {
+              print('click item 1');
+            }
+            menuItem.checked = !(menuItem.checked == true);
+          },
+        ),
+        MenuItem.separator(),
+        MenuItem(
+          label: '打开配置文件',
+        ),
+        MenuItem.separator(),
+        MenuItem.checkbox(
+          label: '暂停使用',
+          checked: false,
+          onClick: (menuItem) {
+            if (kDebugMode) {
+              print('click item 1');
+            }
+            menuItem.checked = !(menuItem.checked == true);
+          },
+        ),
+        MenuItem.submenu(
+          label: '帮助',
+          submenu: Menu(
+            items: [
+              MenuItem(
+                label: '关于',
+                onClick: (menuItem) {
+                  if (kDebugMode) {
+                    print('click item 1');
+                  }
+                },
+              ),
+              MenuItem(
+                label: '帮助',
+                onClick: (menuItem) {
+                  if (kDebugMode) {
+                    print('click item 2');
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
+        MenuItem.separator(),
+        MenuItem(
+          label: '退出',
+          onClick: (menuItem) {
+            if (kDebugMode) {
+              print('click item 2');
+            }
+            exit(0);
+          },
+        ),
+      ],
+    );
+    trayManager.setContextMenu(_menu!);
     trayManager.popUpContextMenu();
   }
 
