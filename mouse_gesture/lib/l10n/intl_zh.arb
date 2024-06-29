@@ -1,34 +1,34 @@
 {
-    "@@locale": "en",
-    "appTitle": "Open at Startup",
+    "@@locale": "zh_CN",
+    "appTitle": "开机自启",
     "@appTitle": {
-        "description": "Label for startup setting checkbox"
+        "description": "开机自启设置复选框的标签"
     },
-    "openConfig": "Open Config File",
+    "openConfig": "打开配置文件",
     "@openConfig": {
         "description": "打开配置文件按钮的标签"
     },
-    "pause": "Pause",
+    "pause": "暂停",
     "@pause": {
         "description": "暂停使用按钮的标签"
     },
-    "help": "Help",
+    "help": "帮助",
     "@help": {
         "description": "帮助按钮的标签"
     },
-    "aboutMe": "About Me",
+    "aboutMe": "关于",
     "@aboutMe": {
         "description": "关于按钮的标签"
     },
-    "use": "Use",
+    "use": "使用",
     "@use": {
         "description": "使用按钮的标签"
     },
-    "quit": "Quit",
+    "quit": "退出",
     "@quit": {
         "description": "退出按钮的标签"
     },
-    "exit": "Exit",
+    "exit": "退出",
     "@exit": {
         "description": "退出按钮的标签"
     }

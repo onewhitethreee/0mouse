@@ -9,8 +9,12 @@ dependencies:
   bot_toast: ^4.0.1
   flutter:
     sdk: flutter
-  intl: ^0.19.0
-  tray_manager: ^0.2.3
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.19.0 # 国际化
+  intl_utils: ^2.8.7
+  tray_manager: ^0.2.3 # 托盘
+  url_launcher: ^6.3.0 # 打开浏览器
 
 dev_dependencies:
   flutter_test:

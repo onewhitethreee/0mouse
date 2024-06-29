@@ -1,13 +1,16 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tray_manager/tray_manager.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../generated/l10n.dart';
 
 const _kIconTypeDefault = 'default';
 const _kIconTypeOriginal = 'original';
+const _AboutURL = 'https://0mouse.com/about';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,8 +22,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TrayListener {
   String _iconType = _kIconTypeOriginal;
   Menu? _menu;
-
-  Timer? _timer;
 
   @override
   void initState() {
@@ -53,76 +54,27 @@ class _HomePageState extends State<HomePage> with TrayListener {
           ? 'images/tray_icon_original.ico'
           : 'images/tray_icon_original.png';
     }
-
     await trayManager.setIcon(iconPath);
   }
 
-  void _startIconFlashing() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      _handleSetIcon(
-        _iconType == _kIconTypeOriginal
-            ? _kIconTypeDefault
-            : _kIconTypeOriginal,
-      );
-    });
-    setState(() {});
+  // 暂停使用图标
+  void _setPauseIcon() async {
+    await _handleSetIcon(_kIconTypeDefault);
   }
 
-  void _stopIconFlashing() {
-    if (_timer != null && _timer!.isActive) {
-      _timer!.cancel();
+  // 恢复正常图标
+  void _setNormalIcon() async {
+    await _handleSetIcon(_kIconTypeOriginal);
+  }
+
+  // 打开浏览器
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
     }
-    setState(() {});
-  }
-
-  Widget _buildBody(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        ListTile(
-          title: const Text('destroy'),
-          onTap: () {
-            trayManager.destroy();
-          },
-        ),
-        const Divider(height: 0),
-        ListTile(
-          title: const Text('setIcon'),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Builder(
-                builder: (_) {
-                  bool isFlashing = (_timer != null && _timer!.isActive);
-                  return TextButton(
-                    onPressed:
-                        isFlashing ? _stopIconFlashing : _startIconFlashing,
-                    child: isFlashing
-                        ? const Text('stop flash')
-                        : const Text('start flash'),
-                  );
-                },
-              ),
-              TextButton(
-                child: const Text('Default'),
-                onPressed: () => _handleSetIcon(_kIconTypeDefault),
-              ),
-              TextButton(
-                child: const Text('Original'),
-                onPressed: () => _handleSetIcon(_kIconTypeOriginal),
-              ),
-            ],
-          ),
-          onTap: () => _handleSetIcon(_kIconTypeDefault),
-        ),
-        const Divider(height: 10),
-        ListTile(
-          title: const Text('popUpContextMenu'),
-          onTap: () async {
-            await trayManager.popUpContextMenu();
-          },
-        ),
-      ],
-    );
   }
 
   @override
@@ -131,7 +83,24 @@ class _HomePageState extends State<HomePage> with TrayListener {
       appBar: AppBar(
         title: const Text('Plugin example app'),
       ),
-      body: _buildBody(context),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                _handleSetIcon(_kIconTypeDefault);
+              },
+              child: const Text('Set Default Icon'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _handleSetIcon(_kIconTypeOriginal);
+              },
+              child: const Text('Set Original Icon'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -154,51 +123,68 @@ class _HomePageState extends State<HomePage> with TrayListener {
   void onTrayIconRightMouseDown() {
     if (kDebugMode) {
       print('onTrayIconRightMouseDown');
+      print('Current locale: ${Localizations.localeOf(context)}');
     }
+
     _menu ??= Menu(
       items: [
         MenuItem.checkbox(
-          label: '开机自启',
+          label: S.of(context).appTitle,
           checked: false,
           onClick: (menuItem) {
             if (kDebugMode) {
-              print('click item 1');
+              print('auto start');
             }
             menuItem.checked = !(menuItem.checked == true);
           },
         ),
         MenuItem.separator(),
         MenuItem(
-          label: '打开配置文件',
+          label: S.of(context).openConfig,
         ),
         MenuItem.separator(),
         MenuItem.checkbox(
-          label: '暂停使用',
+          label: S.of(context).pause,
           checked: false,
           onClick: (menuItem) {
             if (kDebugMode) {
-              print('click item 1');
+              print('pause use');
             }
             menuItem.checked = !(menuItem.checked == true);
+            if (menuItem.checked == true) {
+              _setPauseIcon();
+            } else {
+              _setNormalIcon();
+            }
           },
         ),
         MenuItem.submenu(
-          label: '帮助',
+          label: S.of(context).help,
           submenu: Menu(
             items: [
               MenuItem(
-                label: '关于',
+                label: S.of(context).aboutMe,
                 onClick: (menuItem) {
                   if (kDebugMode) {
-                    print('click item 1');
+                    print('help about');
+                  }
+                  menuItem.checked = !(menuItem.checked == true);
+                  // open about page
+                  if (menuItem.checked == true) {
+                    _launchInBrowser(Uri.parse(_AboutURL));
                   }
                 },
               ),
               MenuItem(
-                label: '帮助',
+                label: S.of(context).help,
                 onClick: (menuItem) {
                   if (kDebugMode) {
-                    print('click item 2');
+                    print('help help');
+                  }
+                  menuItem.checked = !(menuItem.checked == true);
+                  // open help page
+                  if (menuItem.checked == true) {
+                    _launchInBrowser(Uri.parse(_AboutURL));
                   }
                 },
               ),
@@ -207,10 +193,10 @@ class _HomePageState extends State<HomePage> with TrayListener {
         ),
         MenuItem.separator(),
         MenuItem(
-          label: '退出',
+          label: S.of(context).exit,
           onClick: (menuItem) {
             if (kDebugMode) {
-              print('click item 2');
+              print('exit');
             }
             exit(0);
           },

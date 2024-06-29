@@ -50,12 +50,82 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `test`
-  String get test {
+  /// `Open at Startup`
+  String get appTitle {
     return Intl.message(
-      'test',
-      name: 'test',
-      desc: '',
+      'Open at Startup',
+      name: 'appTitle',
+      desc: 'Label for startup setting checkbox',
+      args: [],
+    );
+  }
+
+  /// `Open Config File`
+  String get openConfig {
+    return Intl.message(
+      'Open Config File',
+      name: 'openConfig',
+      desc: '打开配置文件按钮的标签',
+      args: [],
+    );
+  }
+
+  /// `Pause`
+  String get pause {
+    return Intl.message(
+      'Pause',
+      name: 'pause',
+      desc: '暂停使用按钮的标签',
+      args: [],
+    );
+  }
+
+  /// `Help`
+  String get help {
+    return Intl.message(
+      'Help',
+      name: 'help',
+      desc: '帮助按钮的标签',
+      args: [],
+    );
+  }
+
+  /// `About Me`
+  String get aboutMe {
+    return Intl.message(
+      'About Me',
+      name: 'aboutMe',
+      desc: '关于按钮的标签',
+      args: [],
+    );
+  }
+
+  /// `Use`
+  String get use {
+    return Intl.message(
+      'Use',
+      name: 'use',
+      desc: '使用按钮的标签',
+      args: [],
+    );
+  }
+
+  /// `Quit`
+  String get quit {
+    return Intl.message(
+      'Quit',
+      name: 'quit',
+      desc: '退出按钮的标签',
+      args: [],
+    );
+  }
+
+  /// `Exit`
+  String get exit {
+    return Intl.message(
+      'Exit',
+      name: 'exit',
+      desc: '退出按钮的标签',
       args: [],
     );
   }
@@ -67,8 +137,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
-      Locale.fromSubtags(languageCode: 'es'),
-      Locale.fromSubtags(languageCode: 'zh-cn'),
+      Locale.fromSubtags(languageCode: 'zh'),
     ];
   }
 

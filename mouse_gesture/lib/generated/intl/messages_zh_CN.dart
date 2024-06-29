@@ -21,6 +21,14 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'zh_CN';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static Map<String, Function> _notInlinedMessages(_) =>
-      <String, Function>{"test": MessageLookupByLibrary.simpleMessage("测试")};
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "aboutMe": MessageLookupByLibrary.simpleMessage("关于"),
+        "appTitle": MessageLookupByLibrary.simpleMessage("开机自启"),
+        "exit": MessageLookupByLibrary.simpleMessage("退出"),
+        "help": MessageLookupByLibrary.simpleMessage("帮助"),
+        "openConfig": MessageLookupByLibrary.simpleMessage("打开配置文件"),
+        "pause": MessageLookupByLibrary.simpleMessage("暂停"),
+        "quit": MessageLookupByLibrary.simpleMessage("退出"),
+        "use": MessageLookupByLibrary.simpleMessage("使用")
+      };
 }
