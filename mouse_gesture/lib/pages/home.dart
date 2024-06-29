@@ -10,7 +10,7 @@ import '../generated/l10n.dart';
 
 const _kIconTypeDefault = 'default';
 const _kIconTypeOriginal = 'original';
-const _AboutURL = 'https://0mouse.com/about';
+const _AboutURL = 'https://0mouse.com';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,6 +28,23 @@ class _HomePageState extends State<HomePage> with TrayListener {
     trayManager.addListener(this);
     super.initState();
     _initTray();
+    getOperation();
+  }
+
+  void getOperation() {
+    if (Platform.isWindows) {
+      print('Running on Windows');
+    } else if (Platform.isAndroid) {
+      print('Running on Android');
+    } else if (Platform.isIOS) {
+      print('Running on iOS');
+    } else if (Platform.isMacOS) {
+      print('Running on macOS');
+    } else if (Platform.isLinux) {
+      print('Running on Linux');
+    } else {
+      print('Running on an unknown platform');
+    }
   }
 
   void _initTray() async {
