@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 
+import 'package:win32/win32.dart';
+import 'package:ffi/ffi.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tray_manager/tray_manager.dart';
@@ -59,6 +62,91 @@ class _HomePageState extends State<HomePage> with TrayListener {
   void dispose() {
     trayManager.removeListener(this);
     super.dispose();
+  }
+
+  void enableStartUpOnWindows() {
+    final hkey = HKEY_CURRENT_USER;
+    final lpSubKey =
+        'Software\\Microsoft\\Windows\\CurrentVersion\\Run'.toNativeUtf16();
+    final dwType = REG_VALUE_TYPE.REG_SZ;
+    final programName = 'ZeroMouse'.toNativeUtf16();
+    final lpData = Platform.resolvedExecutable.toNativeUtf16();
+
+    final phkResult = calloc<HKEY>();
+
+    try {
+      final lResult = RegOpenKeyEx(
+        hkey,
+        lpSubKey,
+        0,
+        REG_SAM_FLAGS.KEY_SET_VALUE,
+        phkResult,
+      );
+
+      if (lResult == WIN32_ERROR.ERROR_SUCCESS) {
+        final setResult = RegSetValueEx(
+          phkResult.value,
+          programName,
+          0,
+          dwType,
+          lpData.cast<Uint8>(),
+          lpData.length * 2, // multiply by 2 for wide char
+        );
+
+        if (setResult != WIN32_ERROR.ERROR_SUCCESS) {
+          throw WindowsException(setResult);
+        }
+      } else {
+        throw WindowsException(lResult);
+      }
+    } finally {
+      if (phkResult.value != NULL) {
+        RegCloseKey(phkResult.value);
+      }
+      free(phkResult);
+      free(lpSubKey);
+      free(programName);
+      free(lpData);
+    }
+  }
+
+  void disableStartUpOnWindows() {
+    final hkey = HKEY_CURRENT_USER;
+    final lpSubKey =
+        'Software\\Microsoft\\Windows\\CurrentVersion\\Run'.toNativeUtf16();
+    final programName = 'ZeroMouse'.toNativeUtf16();
+
+    final phkResult = calloc<HKEY>();
+
+    try {
+      final lResult = RegOpenKeyEx(
+        hkey,
+        lpSubKey,
+        0,
+        REG_SAM_FLAGS.KEY_SET_VALUE,
+        phkResult,
+      );
+
+      if (lResult == WIN32_ERROR.ERROR_SUCCESS) {
+        final deleteResult = RegDeleteValue(
+          phkResult.value,
+          programName,
+        );
+
+        if (deleteResult != WIN32_ERROR.ERROR_SUCCESS) {
+          throw WindowsException(deleteResult);
+        }
+      } else {
+        throw WindowsException(lResult);
+      }
+    } finally {
+      if (phkResult.value != NULL) {
+        RegCloseKey(phkResult.value);
+      }
+      free(phkResult);
+      free(lpSubKey);
+      free(programName);
+    }
   }
 
   Future<void> _handleSetIcon(String iconType) async {
@@ -153,6 +241,11 @@ class _HomePageState extends State<HomePage> with TrayListener {
               print('auto start');
             }
             menuItem.checked = !(menuItem.checked == true);
+            if (menuItem.checked == true) {
+              enableStartUpOnWindows();
+            } else {
+              disableStartUpOnWindows();
+            }
           },
         ),
         MenuItem.separator(),

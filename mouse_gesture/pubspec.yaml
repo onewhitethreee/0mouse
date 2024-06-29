@@ -15,6 +15,7 @@ dependencies:
   intl_utils: ^2.8.7
   tray_manager: ^0.2.3 # 托盘
   url_launcher: ^6.3.0 # 打开浏览器
+  win32: ^5.5.1
 
 dev_dependencies:
   flutter_test:
