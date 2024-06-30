@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:io';
 
+import 'dart:ffi';
 import 'package:win32/win32.dart';
 import 'package:ffi/ffi.dart';
 import 'package:flutter/foundation.dart';
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> with TrayListener {
     final lpSubKey =
         'Software\\Microsoft\\Windows\\CurrentVersion\\Run'.toNativeUtf16();
     final dwType = REG_VALUE_TYPE.REG_SZ;
-    final programName = 'ZeroMouse'.toNativeUtf16();
+    final programName = '0Mouse'.toNativeUtf16();
     final lpData = Platform.resolvedExecutable.toNativeUtf16();
 
     final phkResult = calloc<HKEY>();
@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> with TrayListener {
     final hkey = HKEY_CURRENT_USER;
     final lpSubKey =
         'Software\\Microsoft\\Windows\\CurrentVersion\\Run'.toNativeUtf16();
-    final programName = 'ZeroMouse'.toNativeUtf16();
+    final programName = '0Mouse'.toNativeUtf16();
 
     final phkResult = calloc<HKEY>();
 
@@ -147,6 +147,70 @@ class _HomePageState extends State<HomePage> with TrayListener {
       free(lpSubKey);
       free(programName);
     }
+  }
+
+  bool findStartUpOnWindows() {
+    final hkey = HKEY_CURRENT_USER;
+    final lpSubKey =
+        'Software\\Microsoft\\Windows\\CurrentVersion\\Run'.toNativeUtf16();
+    final programName = '0Mouse'.toNativeUtf16();
+
+    final phkResult = calloc<HKEY>();
+    final lpType = calloc<DWORD>();
+    final lpcbData = calloc<DWORD>();
+    bool result = false;
+    try {
+      final lResult = RegOpenKeyEx(
+        hkey,
+        lpSubKey,
+        0,
+        REG_SAM_FLAGS.KEY_READ,
+        phkResult,
+      );
+
+      if (lResult == WIN32_ERROR.ERROR_SUCCESS) {
+        // First call to get the size of the data
+        RegQueryValueEx(
+          phkResult.value,
+          programName,
+          nullptr,
+          lpType,
+          nullptr,
+          lpcbData,
+        );
+
+        final lpData = calloc<BYTE>(lpcbData.value);
+
+        final queryResult = RegQueryValueEx(
+          phkResult.value,
+          programName,
+          nullptr,
+          lpType,
+          lpData,
+          lpcbData,
+        );
+
+        if (queryResult == WIN32_ERROR.ERROR_SUCCESS) {
+          final value = lpData.cast<Utf16>().toDartString();
+          print('Value found: $value');
+          result = true;
+        } else {
+          print('Value not found');
+        }
+
+        free(lpData);
+      } else {
+        throw WindowsException(lResult);
+      }
+    } finally {
+      if (phkResult.value != NULL) {
+        RegCloseKey(phkResult.value);
+      }
+      free(phkResult);
+      free(lpType);
+      free(lpcbData);
+    }
+    return result;
   }
 
   Future<void> _handleSetIcon(String iconType) async {
@@ -235,7 +299,7 @@ class _HomePageState extends State<HomePage> with TrayListener {
       items: [
         MenuItem.checkbox(
           label: S.of(context).appTitle,
-          checked: false,
+          checked: findStartUpOnWindows(),
           onClick: (menuItem) {
             if (kDebugMode) {
               print('auto start');
