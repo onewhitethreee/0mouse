@@ -4,11 +4,25 @@ import 'package:mouse_gesture/pages/home.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/l10n.dart';
+import 'package:window_manager/window_manager.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // 必须加上这一行。
+  await windowManager.ensureInitialized();
 
-  runApp(const MyApp());
+  WindowOptions windowOptions = WindowOptions(
+    size: Size(1000, 800),
+    center: true,
+    backgroundColor: Colors.transparent,
+    skipTaskbar: false,
+  );
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.show();
+    await windowManager.focus();
+  });
+
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {

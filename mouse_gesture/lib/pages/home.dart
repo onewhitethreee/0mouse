@@ -2,12 +2,14 @@ import 'dart:async';
 import 'dart:io';
 
 import 'dart:ffi';
+import 'dart:ui';
 import 'package:win32/win32.dart';
 import 'package:ffi/ffi.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tray_manager/tray_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:window_manager/window_manager.dart';
 
 import '../generated/l10n.dart';
 
@@ -274,9 +276,14 @@ class _HomePageState extends State<HomePage> with TrayListener {
   }
 
   @override
-  void onTrayIconMouseDown() {
+  Future<void> onTrayIconMouseDown() async {
     if (kDebugMode) {
       print('onTrayIconMouseDown');
+    }
+    if (await windowManager.isMinimized()) {
+      windowManager.restore();
+    } else {
+      windowManager.minimize();
     }
     // trayManager.popUpContextMenu();
   }
