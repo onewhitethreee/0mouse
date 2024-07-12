@@ -248,6 +248,8 @@ class _HomePageState extends State<HomePage> with TrayListener {
     }
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

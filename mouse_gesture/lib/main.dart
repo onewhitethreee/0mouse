@@ -1,8 +1,11 @@
+import 'dart:ffi' as ffi;
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:mouse_gesture/pages/home.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:win32/win32.dart';
 import 'generated/l10n.dart';
 import 'package:window_manager/window_manager.dart';
 
