@@ -129,6 +129,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Setting`
+  String get settings {
+    return Intl.message(
+      'Setting',
+      name: 'settings',
+      desc: '设置按钮的标签',
+      args: [],
+    );
+  }
+
+  /// `Home`
+  String get home {
+    return Intl.message(
+      'Home',
+      name: 'home',
+      desc: '主页按钮的标签',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

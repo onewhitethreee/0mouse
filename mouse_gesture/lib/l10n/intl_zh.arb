@@ -31,5 +31,13 @@
     "exit": "退出",
     "@exit": {
         "description": "退出按钮的标签"
+    },
+    "settings": "设置",
+    "@settings": {
+        "description": "设置按钮的标签"
+    },
+    "home": "主页",
+    "@home": {
+        "description": "主页按钮的标签"
     }
 }

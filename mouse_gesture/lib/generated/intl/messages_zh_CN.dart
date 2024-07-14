@@ -26,9 +26,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "appTitle": MessageLookupByLibrary.simpleMessage("开机自启"),
         "exit": MessageLookupByLibrary.simpleMessage("退出"),
         "help": MessageLookupByLibrary.simpleMessage("帮助"),
+        "home": MessageLookupByLibrary.simpleMessage("主页"),
         "openConfig": MessageLookupByLibrary.simpleMessage("打开配置文件"),
         "pause": MessageLookupByLibrary.simpleMessage("暂停"),
         "quit": MessageLookupByLibrary.simpleMessage("退出"),
+        "settings": MessageLookupByLibrary.simpleMessage("设置"),
         "use": MessageLookupByLibrary.simpleMessage("使用")
       };
 }

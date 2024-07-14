@@ -26,9 +26,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "appTitle": MessageLookupByLibrary.simpleMessage("Open at Startup"),
         "exit": MessageLookupByLibrary.simpleMessage("Exit"),
         "help": MessageLookupByLibrary.simpleMessage("Help"),
+        "home": MessageLookupByLibrary.simpleMessage("Home"),
         "openConfig": MessageLookupByLibrary.simpleMessage("Open Config File"),
         "pause": MessageLookupByLibrary.simpleMessage("Pause"),
         "quit": MessageLookupByLibrary.simpleMessage("Quit"),
+        "settings": MessageLookupByLibrary.simpleMessage("Setting"),
         "use": MessageLookupByLibrary.simpleMessage("Use")
       };
 }

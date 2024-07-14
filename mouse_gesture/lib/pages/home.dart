@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'dart:ffi';
-import 'dart:ui';
 import 'package:win32/win32.dart';
 import 'package:ffi/ffi.dart';
 import 'package:flutter/foundation.dart';
@@ -12,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:window_manager/window_manager.dart';
 
 import '../generated/l10n.dart';
+import 'drawer.dart';
 
 const _kIconTypeDefault = 'default';
 const _kIconTypeOriginal = 'original';
@@ -66,6 +66,7 @@ class _HomePageState extends State<HomePage> with TrayListener {
     super.dispose();
   }
 
+  // 启用开机启动
   void enableStartUpOnWindows() {
     final hkey = HKEY_CURRENT_USER;
     final lpSubKey =
@@ -112,6 +113,7 @@ class _HomePageState extends State<HomePage> with TrayListener {
     }
   }
 
+  // 禁用开机启动
   void disableStartUpOnWindows() {
     final hkey = HKEY_CURRENT_USER;
     final lpSubKey =
@@ -151,6 +153,7 @@ class _HomePageState extends State<HomePage> with TrayListener {
     }
   }
 
+  // 查找开机启动
   bool findStartUpOnWindows() {
     final hkey = HKEY_CURRENT_USER;
     final lpSubKey =
@@ -197,7 +200,7 @@ class _HomePageState extends State<HomePage> with TrayListener {
           print('Value found: $value');
           result = true;
         } else {
-          print('Value not found');
+          print('start up Value not found');
         }
 
         free(lpData);
@@ -215,6 +218,7 @@ class _HomePageState extends State<HomePage> with TrayListener {
     return result;
   }
 
+  // 设置图标
   Future<void> _handleSetIcon(String iconType) async {
     _iconType = iconType;
     String iconPath =
@@ -248,30 +252,29 @@ class _HomePageState extends State<HomePage> with TrayListener {
     }
   }
 
-  
-
+  bool _isSwitched = true; // 开关状态
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Plugin example app'),
+        title: const Text('0Mouse'),
       ),
+      drawer: AppDrawer(),
       body: Center(
-        child: Column(
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                _handleSetIcon(_kIconTypeDefault);
-              },
-              child: const Text('Set Default Icon'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _handleSetIcon(_kIconTypeOriginal);
-              },
-              child: const Text('Set Original Icon'),
-            ),
-          ],
+        child: Switch(
+          value: _isSwitched,
+          onChanged: (value) {
+            if (value) {
+              _setNormalIcon();
+            } else {
+              _setPauseIcon();
+            }
+            setState(() {
+              _isSwitched = value;
+            });
+          },
+          activeTrackColor: Colors.lightBlueAccent,
+          activeColor: Colors.blue,
         ),
       ),
     );
@@ -298,7 +301,7 @@ class _HomePageState extends State<HomePage> with TrayListener {
   }
 
   @override
-  void onTrayIconRightMouseDown() {
+  void onTrayIconRightMouseDown() async {
     if (kDebugMode) {
       print('onTrayIconRightMouseDown');
       print('Current locale: ${Localizations.localeOf(context)}');
@@ -328,17 +331,20 @@ class _HomePageState extends State<HomePage> with TrayListener {
         MenuItem.separator(),
         MenuItem.checkbox(
           label: S.of(context).pause,
-          checked: false,
+          checked: _isSwitched,
           onClick: (menuItem) {
             if (kDebugMode) {
               print('pause use');
             }
-            menuItem.checked = !(menuItem.checked == true);
-            if (menuItem.checked == true) {
-              _setPauseIcon();
-            } else {
-              _setNormalIcon();
-            }
+            setState(() {
+              _isSwitched = !_isSwitched;
+              menuItem.checked = _isSwitched;
+              if (_isSwitched) {
+                _setNormalIcon();
+              } else {
+                _setPauseIcon();
+              }
+            });
           },
         ),
         MenuItem.submenu(
