@@ -1,5 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'home.dart';
+import 'package:mouse_gesture/pages/about_page.dart';
 import 'settings_page.dart';
 import '../generated/l10n.dart';
 
@@ -29,10 +31,6 @@ class AppDrawer extends StatelessWidget {
             title: Text(S.of(context).home),
             onTap: () {
               Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
-              );
             },
           ),
           ListTile(
@@ -46,6 +44,25 @@ class AppDrawer extends StatelessWidget {
               );
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.info),
+            title: Text(S.of(context).aboutMe),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const AboutPage()));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.exit_to_app),
+            title: Text(S.of(context).exit),
+            onTap: () {
+              Navigator.pop(context);
+              exit(0);
+            },
+          ),
+          // 添加一个分割线
+          const Divider(),
         ],
       ),
     );
