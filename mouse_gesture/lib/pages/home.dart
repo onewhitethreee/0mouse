@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'dart:ffi';
+import 'package:bot_toast/bot_toast.dart';
+import 'package:local_notifier/local_notifier.dart';
 import 'package:win32/win32.dart';
 import 'package:ffi/ffi.dart';
 import 'package:flutter/foundation.dart';
@@ -252,6 +254,23 @@ class _HomePageState extends State<HomePage> with TrayListener {
     }
   }
 
+  void _sendLocalNotification(String msg) {
+    final notification = LocalNotification(
+      // 用来生成通用唯一识别码
+      identifier: '0Mouse',
+      title: "0Mouse",
+      subtitle: '0Mouse',
+      body: msg,
+      // 用来设置是否静音
+      silent: true,
+    );
+    // notification.onShow = () {
+    //   BotToast.showText(text: '显示了一条通知');
+    // };
+
+    notification.show();
+  }
+
   bool _isSwitched = true; // 开关状态
   @override
   Widget build(BuildContext context) {
@@ -264,13 +283,15 @@ class _HomePageState extends State<HomePage> with TrayListener {
         child: Switch(
           value: _isSwitched,
           onChanged: (value) {
-            if (value) {
-              _setNormalIcon();
-            } else {
-              _setPauseIcon();
-            }
             setState(() {
               _isSwitched = value;
+              if (_isSwitched) {
+                _setNormalIcon();
+                _sendLocalNotification(S.of(context).mouseRunning);
+              } else {
+                _setPauseIcon();
+                _sendLocalNotification(S.of(context).mousePaused);
+              }
             });
           },
           activeTrackColor: Colors.lightBlueAccent,
@@ -329,24 +350,6 @@ class _HomePageState extends State<HomePage> with TrayListener {
           label: S.of(context).openConfig,
         ),
         MenuItem.separator(),
-        MenuItem.checkbox(
-          label: S.of(context).pause,
-          checked: _isSwitched,
-          onClick: (menuItem) {
-            if (kDebugMode) {
-              print('pause use');
-            }
-            setState(() {
-              _isSwitched = !_isSwitched;
-              menuItem.checked = _isSwitched;
-              if (_isSwitched) {
-                _setNormalIcon();
-              } else {
-                _setPauseIcon();
-              }
-            });
-          },
-        ),
         MenuItem.submenu(
           label: S.of(context).help,
           submenu: Menu(

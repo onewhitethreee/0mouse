@@ -1,7 +1,6 @@
-
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:local_notifier/local_notifier.dart';
 import 'package:mouse_gesture/pages/home.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,6 +24,10 @@ void main() async {
     await windowManager.focus();
   });
 
+  await localNotifier.setup(
+    appName: "0Mouse",
+    shortcutPolicy: ShortcutPolicy.requireCreate,
+  );
   runApp(MyApp());
 }
 
@@ -53,6 +56,7 @@ class _MyAppState extends State<MyApp> {
         Locale('zh', 'CN'),
         Locale('en', 'US'),
       ],
+
       home: const HomePage(),
     );
   }

@@ -149,6 +149,26 @@ class S {
       args: [],
     );
   }
+
+  /// `0Mouse is running`
+  String get mouseRunning {
+    return Intl.message(
+      '0Mouse is running',
+      name: 'mouseRunning',
+      desc: '0Mouse正在运行的提示',
+      args: [],
+    );
+  }
+
+  /// `0Mouse is paused`
+  String get mousePaused {
+    return Intl.message(
+      '0Mouse is paused',
+      name: 'mousePaused',
+      desc: '0Mouse暂停的提示',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -39,5 +39,13 @@
     "home": "主页",
     "@home": {
         "description": "主页按钮的标签"
+    },
+    "mouseRunning": "0Mouse正在运行",
+    "@mouseRunning": {
+        "description": "0Mouse正在运行的提示"
+    },
+    "mousePaused": "0Mouse已暂停",
+    "@mousePaused": {
+        "description": "0Mouse已暂停的提示"
     }
 }

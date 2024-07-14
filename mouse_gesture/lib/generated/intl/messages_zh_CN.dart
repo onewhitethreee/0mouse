@@ -27,6 +27,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "exit": MessageLookupByLibrary.simpleMessage("退出"),
         "help": MessageLookupByLibrary.simpleMessage("帮助"),
         "home": MessageLookupByLibrary.simpleMessage("主页"),
+        "mousePaused": MessageLookupByLibrary.simpleMessage("0Mouse已暂停"),
+        "mouseRunning": MessageLookupByLibrary.simpleMessage("0Mouse正在运行"),
         "openConfig": MessageLookupByLibrary.simpleMessage("打开配置文件"),
         "pause": MessageLookupByLibrary.simpleMessage("暂停"),
         "quit": MessageLookupByLibrary.simpleMessage("退出"),

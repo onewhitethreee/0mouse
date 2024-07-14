@@ -27,6 +27,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "exit": MessageLookupByLibrary.simpleMessage("Exit"),
         "help": MessageLookupByLibrary.simpleMessage("Help"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "mousePaused": MessageLookupByLibrary.simpleMessage("0Mouse is paused"),
+        "mouseRunning":
+            MessageLookupByLibrary.simpleMessage("0Mouse is running"),
         "openConfig": MessageLookupByLibrary.simpleMessage("Open Config File"),
         "pause": MessageLookupByLibrary.simpleMessage("Pause"),
         "quit": MessageLookupByLibrary.simpleMessage("Quit"),
