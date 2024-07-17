@@ -264,9 +264,9 @@ class _HomePageState extends State<HomePage> with TrayListener {
       // 用来设置是否静音
       silent: true,
     );
-    // notification.onShow = () {
-    //   BotToast.showText(text: '显示了一条通知');
-    // };
+    notification.onShow = () {
+      BotToast.showText(text: msg);
+    };
 
     notification.show();
   }
@@ -280,6 +280,7 @@ class _HomePageState extends State<HomePage> with TrayListener {
       ),
       drawer: AppDrawer(),
       body: Center(
+        
         child: Switch(
           value: _isSwitched,
           onChanged: (value) {
