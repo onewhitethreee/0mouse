@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "D:/desktop/0mouse/mouse_gesture/windows"
+    "cmake.sourceDirectory": "D:/desktop/0mouse/mouse_gesture/windows",
+    "C_Cpp.errorSquiggles": "enabled"
 }
