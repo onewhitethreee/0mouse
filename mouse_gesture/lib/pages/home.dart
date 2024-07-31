@@ -275,12 +275,12 @@ class _HomePageState extends State<HomePage> with TrayListener {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('0Mouse'),
       ),
       drawer: AppDrawer(),
       body: Center(
-        
         child: Switch(
           value: _isSwitched,
           onChanged: (value) {
@@ -295,8 +295,10 @@ class _HomePageState extends State<HomePage> with TrayListener {
               }
             });
           },
-          activeTrackColor: Colors.lightBlueAccent,
-          activeColor: Colors.blue,
+          activeColor: Colors.green, // 开启时的颜色
+          inactiveThumbColor: const Color.fromARGB(255, 151, 97, 94), // 关闭时的颜色
+          activeTrackColor: Colors.green.withOpacity(0.5), // 开启时轨道的颜色
+          inactiveTrackColor: Colors.red.withOpacity(0.5), // 关闭时轨道的颜色
         ),
       ),
     );
