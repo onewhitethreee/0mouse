@@ -22,17 +22,23 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "EdgeScrolling": MessageLookupByLibrary.simpleMessage("边缘滚动"),
         "aboutMe": MessageLookupByLibrary.simpleMessage("关于"),
         "appTitle": MessageLookupByLibrary.simpleMessage("开机自启"),
+        "cornerOfScreen": MessageLookupByLibrary.simpleMessage("屏幕角"),
         "exit": MessageLookupByLibrary.simpleMessage("退出"),
         "help": MessageLookupByLibrary.simpleMessage("帮助"),
         "home": MessageLookupByLibrary.simpleMessage("主页"),
+        "ignoreFullScreen": MessageLookupByLibrary.simpleMessage("忽略全屏"),
+        "mouseGesture": MessageLookupByLibrary.simpleMessage("鼠标手势"),
         "mousePaused": MessageLookupByLibrary.simpleMessage("0Mouse已暂停"),
         "mouseRunning": MessageLookupByLibrary.simpleMessage("0Mouse正在运行"),
         "openConfig": MessageLookupByLibrary.simpleMessage("打开配置文件"),
         "pause": MessageLookupByLibrary.simpleMessage("暂停"),
         "quit": MessageLookupByLibrary.simpleMessage("退出"),
         "settings": MessageLookupByLibrary.simpleMessage("设置"),
+        "showIcon": MessageLookupByLibrary.simpleMessage("显示图标"),
+        "showKeyborad": MessageLookupByLibrary.simpleMessage("按键回显"),
         "use": MessageLookupByLibrary.simpleMessage("使用")
       };
 }

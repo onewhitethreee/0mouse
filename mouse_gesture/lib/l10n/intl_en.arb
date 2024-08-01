@@ -47,6 +47,29 @@
     "mousePaused": "0Mouse is paused",
     "@mousePaused": {
         "description": "0Mouse暂停的提示"
+    },
+    "mouseGesture": "Mouse Gesture",
+    "@mouseGesture": {
+        "description": "Hold down the right mouse button and draw the movement pattern, release the right button to trigger the corresponding action."
+    },
+    "EdgeScrolling": "Edge Scrolling",
+    "@EdgeScrolling": {
+        "description": "Functions that can be triggered by scrolling the mouse wheel over the four edges of the screen"
+    },
+    "cornerOfScreen": "Corner of Screen",
+    "@cornerOfScreen": {
+        "description": "Functions that can be triggered by moving the mouse to the four corners of the screen"
+    },
+    "showKeyborad": "Show Keyborad",
+    "@showKeyborad": {
+        "description": "Show the keyboard on the screen"
+    },
+    "ignoreFullScreen": "Ignore FullScreen",
+    "@ignoreFullScreen": {
+        "description": "Ignore the mouse gesture when the window is in full screen mode"
+    },
+    "showIcon": "Show Icon",
+    "@showIcon": {
+        "description": "Show the icon in the system tray"
     }
-
 }

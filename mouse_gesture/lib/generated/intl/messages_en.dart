@@ -22,11 +22,17 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "EdgeScrolling": MessageLookupByLibrary.simpleMessage("Edge Scrolling"),
         "aboutMe": MessageLookupByLibrary.simpleMessage("About Me"),
         "appTitle": MessageLookupByLibrary.simpleMessage("Open at Startup"),
+        "cornerOfScreen":
+            MessageLookupByLibrary.simpleMessage("Corner of Screen"),
         "exit": MessageLookupByLibrary.simpleMessage("Exit"),
         "help": MessageLookupByLibrary.simpleMessage("Help"),
         "home": MessageLookupByLibrary.simpleMessage("Home"),
+        "ignoreFullScreen":
+            MessageLookupByLibrary.simpleMessage("Ignore FullScreen"),
+        "mouseGesture": MessageLookupByLibrary.simpleMessage("Mouse Gesture"),
         "mousePaused": MessageLookupByLibrary.simpleMessage("0Mouse is paused"),
         "mouseRunning":
             MessageLookupByLibrary.simpleMessage("0Mouse is running"),
@@ -34,6 +40,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "pause": MessageLookupByLibrary.simpleMessage("Pause"),
         "quit": MessageLookupByLibrary.simpleMessage("Quit"),
         "settings": MessageLookupByLibrary.simpleMessage("Setting"),
+        "showIcon": MessageLookupByLibrary.simpleMessage("Show Icon"),
+        "showKeyborad": MessageLookupByLibrary.simpleMessage("Show Keyborad"),
         "use": MessageLookupByLibrary.simpleMessage("Use")
       };
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mouse_gesture/generated/l10n.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MouseIncSettingsPage extends StatefulWidget {
   @override
@@ -12,16 +12,54 @@ class _MouseIncSettingsPageState extends State<MouseIncSettingsPage> {
     '边缘滚动': {'value': false, 'description': '鼠标滚轮在屏幕四个边缘滚动，按下可触发的功能'},
     '触发角': {'value': false, 'description': '鼠标移动到屏幕四个角触发的功能'},
     '按键回显': {'value': false, 'description': '在屏幕上显示键盘按键，方便录制教程'},
-    '按键音效': {'value': false, 'description': '在你打字时发出悦耳的声音'},
-    '输入法状态显示': {'value': false, 'description': '显示当前窗口输入法的中英文状态'},
     '忽略全屏': {'value': false, 'description': '当前程序如果是一个全屏程序，会自动暂停Mouse功能'},
-    '显示图标': {'value': false, 'description': '是否在系统托盘显示Mouse图标'},
+    '显示图标': {'value': false, 'description': '是否在系统托盘显示软件图标'},
   };
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+  }
+
+  Future<void> _loadSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _settings.forEach((key, value) {
+        value['value'] = prefs.getBool(key) ?? value['value'];
+      });
+      _loading = false; // 数据加载完成
+    });
+  }
+
+  Future<void> _saveSettings(String s) async {
+    final prefs = await SharedPreferences.getInstance();
+    _settings.forEach((key, value) {
+      prefs.setBool(key, value['value']);
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('设置已$s')),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_loading) {
+      // 显示加载指示器
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('功能开关'),
+          backgroundColor: const Color.fromARGB(255, 219, 216, 216),
+        ),
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return Scaffold(
-      backgroundColor: Colors.grey[100], // 保留灰色背景，使白色卡片更加突出
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         title: Text('功能开关'),
         backgroundColor: const Color.fromARGB(255, 219, 216, 216),
@@ -30,45 +68,27 @@ class _MouseIncSettingsPageState extends State<MouseIncSettingsPage> {
             child: Text('保存',
                 style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('设置已保存')),
-              );
+              _saveSettings("保存"); // 保存设置
             },
           ),
           IconButton(
             icon: Icon(Icons.refresh),
             tooltip: '刷新',
             onPressed: () {
-              // 实现刷新逻辑
+              _loadSettings(); // 重新加载设置
             },
           ),
           IconButton(
             icon: Icon(Icons.undo),
             tooltip: '重置',
             onPressed: () {
-              // 实现重置逻辑
+              setState(() {
+                _settings.forEach((key, value) {
+                  value['value'] = false;
+                });
+              });
+              _saveSettings("重置"); // 保存设置
             },
-          ),
-          PopupMenuButton<String>(
-            onSelected: (String result) {
-              if (result == 'zh') {
-                Locale locale = Locale('zh', 'CN');
-                S.load(locale);
-              } else if (result == 'en') {
-                Locale locale = Locale('en', 'US');
-                S.load(locale);
-              }
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                value: 'zh',
-                child: Text('中文'),
-              ),
-              const PopupMenuItem<String>(
-                value: 'en',
-                child: Text('English'),
-              ),
-            ],
           ),
         ],
       ),
@@ -109,26 +129,23 @@ class _MouseIncSettingsPageState extends State<MouseIncSettingsPage> {
       cursor: SystemMouseCursors.click,
       onEnter: (_) {
         setState(() {
-          // Set the hover state to true when the mouse enters
           _settings[title]?['hovered'] = true;
         });
       },
       onExit: (_) {
         setState(() {
-          // Set the hover state to false when the mouse leaves
           _settings[title]?['hovered'] = false;
         });
       },
       child: GestureDetector(
         onTap: () {
           setState(() {
-            // Toggle the switch value
             setting['value'] = !setting['value'];
           });
         },
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 200), // Animation duration
-          curve: Curves.easeInOut, // Animation curve
+          duration: Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
           decoration: BoxDecoration(
             color: _settings[title]?['hovered'] == true
                 ? Colors.grey[300]
@@ -169,6 +186,7 @@ class _MouseIncSettingsPageState extends State<MouseIncSettingsPage> {
                       setState(() {
                         setting['value'] = newValue;
                       });
+                      print("onChanged: $newValue");
                     },
                     activeColor: Colors.blue,
                     inactiveThumbColor: Colors.grey,

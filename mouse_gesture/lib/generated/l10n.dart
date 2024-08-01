@@ -169,6 +169,69 @@ class S {
       args: [],
     );
   }
+
+  /// `Mouse Gesture`
+  String get mouseGesture {
+    return Intl.message(
+      'Mouse Gesture',
+      name: 'mouseGesture',
+      desc:
+          'Hold down the right mouse button and draw the movement pattern, release the right button to trigger the corresponding action.',
+      args: [],
+    );
+  }
+
+  /// `Edge Scrolling`
+  String get EdgeScrolling {
+    return Intl.message(
+      'Edge Scrolling',
+      name: 'EdgeScrolling',
+      desc:
+          'Functions that can be triggered by scrolling the mouse wheel over the four edges of the screen',
+      args: [],
+    );
+  }
+
+  /// `Corner of Screen`
+  String get cornerOfScreen {
+    return Intl.message(
+      'Corner of Screen',
+      name: 'cornerOfScreen',
+      desc:
+          'Functions that can be triggered by moving the mouse to the four corners of the screen',
+      args: [],
+    );
+  }
+
+  /// `Show Keyborad`
+  String get showKeyborad {
+    return Intl.message(
+      'Show Keyborad',
+      name: 'showKeyborad',
+      desc: 'Show the keyboard on the screen',
+      args: [],
+    );
+  }
+
+  /// `Ignore FullScreen`
+  String get ignoreFullScreen {
+    return Intl.message(
+      'Ignore FullScreen',
+      name: 'ignoreFullScreen',
+      desc: 'Ignore the mouse gesture when the window is in full screen mode',
+      args: [],
+    );
+  }
+
+  /// `Show Icon`
+  String get showIcon {
+    return Intl.message(
+      'Show Icon',
+      name: 'showIcon',
+      desc: 'Show the icon in the system tray',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

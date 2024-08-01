@@ -47,5 +47,29 @@
     "mousePaused": "0Mouse已暂停",
     "@mousePaused": {
         "description": "0Mouse已暂停的提示"
+    },
+    "mouseGesture": "鼠标手势",
+    "@mouseGesture": {
+        "description": "按住鼠标右键并绘制移动图形样式，放开右键即可触发对应动作"
+    },
+    "EdgeScrolling": "边缘滚动",
+    "@EdgeScrolling": {
+        "description": "鼠标滚轮在屏幕四个边缘滚动，可触发的功能"
+    },
+    "cornerOfScreen": "屏幕角",
+    "@cornerOfScreen": {
+        "description": "鼠标移动到屏幕四个角触发的功能"
+    },
+    "showKeyborad": "按键回显",
+    "@showKeyborad": {
+        "description": "在屏幕上显示键盘按键，方便录制教程"
+    },
+    "ignoreFullScreen": "忽略全屏",
+    "@ignoreFullScreen": {
+        "description": "在全屏状态下不触发鼠标手势"
+    },
+    "showIcon": "显示图标",
+    "@showIcon": {
+        "description": "在系统托盘显示图标"
     }
 }
