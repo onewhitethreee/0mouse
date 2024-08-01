@@ -304,17 +304,29 @@ class _HomePageState extends State<HomePage> with TrayListener {
     );
   }
 
+  int _counter = 0;
   @override
   Future<void> onTrayIconMouseDown() async {
     if (kDebugMode) {
       print('onTrayIconMouseDown');
     }
-    if (await windowManager.isMinimized()) {
-      windowManager.restore();
-    } else {
-      windowManager.minimize();
+    _counter++;
+    if (_counter == 1) {
+      Timer(const Duration(milliseconds: 250), () async {
+        if (_counter == 1) {
+          if (kDebugMode) {
+            print('single click');
+          }
+        } else {
+          if (await windowManager.isVisible()) {
+            await windowManager.hide();
+          } else {
+            await windowManager.show();
+          }
+        }
+        _counter = 0;
+      });
     }
-    // trayManager.popUpContextMenu();
   }
 
   @override
