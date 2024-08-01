@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mouse_gesture/generated/l10n.dart';
 
 class MouseIncSettingsPage extends StatefulWidget {
   @override
@@ -8,17 +9,11 @@ class MouseIncSettingsPage extends StatefulWidget {
 class _MouseIncSettingsPageState extends State<MouseIncSettingsPage> {
   Map<String, Map<String, dynamic>> _settings = {
     '鼠标手势': {'value': false, 'description': '按住鼠标右键并绘制移动图形样式，放开右键即可触发对应动作'},
-    '滚轮快切': {'value': false, 'description': '按住鼠标右键时，滚动滚轮可以执行切换动作（依赖鼠标手势）'},
     '边缘滚动': {'value': false, 'description': '鼠标滚轮在屏幕四个边缘滚动，按下可触发的功能'},
     '触发角': {'value': false, 'description': '鼠标移动到屏幕四个角触发的功能'},
-    '快捷菜单': {'value': false, 'description': '选中文字，按住Ctrl再快速按两次C，会弹出快捷操作菜单'},
     '按键回显': {'value': false, 'description': '在屏幕上显示键盘按键，方便录制教程'},
-    '快速移动窗口': {'value': false, 'description': '按住Alt时按住鼠标左键拖动，可以直接移动窗口'},
-    '快速音量调节': {'value': false, 'description': '按住Alt时滚动滚轮调节音量大小，按下滚轮静音'},
-    '音量回馈': {'value': false, 'description': '音量调节时播放音效'},
     '按键音效': {'value': false, 'description': '在你打字时发出悦耳的声音'},
     '输入法状态显示': {'value': false, 'description': '显示当前窗口输入法的中英文状态'},
-    '快速跳转': {'value': false, 'description': '打开保存对话框自动使用鼠标选择管理器目录'},
     '忽略全屏': {'value': false, 'description': '当前程序如果是一个全屏程序，会自动暂停Mouse功能'},
     '显示图标': {'value': false, 'description': '是否在系统托盘显示Mouse图标'},
   };
@@ -56,7 +51,13 @@ class _MouseIncSettingsPageState extends State<MouseIncSettingsPage> {
           ),
           PopupMenuButton<String>(
             onSelected: (String result) {
-              // 处理语言选择
+              if (result == 'zh') {
+                Locale locale = Locale('zh', 'CN');
+                S.load(locale);
+              } else if (result == 'en') {
+                Locale locale = Locale('en', 'US');
+                S.load(locale);
+              }
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               const PopupMenuItem<String>(
