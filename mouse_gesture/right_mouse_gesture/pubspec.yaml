@@ -1,4 +1,4 @@
-name: win_keyboard
+name: right_mouse_gesture
 description: "A new Flutter plugin project."
 version: 0.0.1
 homepage:
@@ -35,7 +35,7 @@ flutter:
   plugin:
     platforms:
       windows:
-        pluginClass: WinKeyboardPluginCApi
+        pluginClass: RightMouseGesturePluginCApi
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:
